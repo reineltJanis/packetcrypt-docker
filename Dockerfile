@@ -5,19 +5,12 @@ RUN apt-get update \
         musl-tools make git clang \
     && rm -rf /var/lib/apt/lists/*
 
-COPY packetcrypt_rs/* .
+COPY packetcrypt_rs/ .
 
 RUN cargo clean
 
 # RUN CC=clang cargo build --release
 RUN PC_CC=clang cargo build --release --features portable
-
-RUN mkdir "./bin"
-
-# RUN cp "target/x86_64-unknown-linux-musl/release/packetcrypt" \
-#     "."'/'"${RELEASE_NAME}"
-
-ENTRYPOINT [ "bash" ]
 
 FROM debian:bullseye-slim as prod
 
