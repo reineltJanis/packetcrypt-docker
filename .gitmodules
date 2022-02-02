@@ -1,4 +1,4 @@
 [submodule "packetcrypt_rs"]
 	path = packetcrypt_rs
 	url = https://github.com/cjdelisle/packetcrypt_rs
-	branch = packetcrypt-v0.5.0
+	branch = packetcrypt-v0.5.1
