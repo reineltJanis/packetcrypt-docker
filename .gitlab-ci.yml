@@ -72,6 +72,8 @@ Push latest:
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
     # Annnd we push it.
     - docker push $CI_REGISTRY_IMAGE:latest
+    - docker tag $CI_REGISTRY_IMAGE:latest $DOCKERHUB_REGISTRY_IMAGE:latest
+    - docker push $DOCKERHUB_REGISTRY_IMAGE:latest
 
 # Finally, the goal here is to Docker tag any Git tag
 # GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
@@ -87,5 +89,5 @@ Push tag:
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-    - docker tag $CI_REGISTRY_IMAGE:latest $DOCKERHUB_REGISTRY_IMAGE:latest
-    - docker push $DOCKERHUB_REGISTRY_IMAGE:latest
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME $DOCKERHUB_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+    - docker push $DOCKERHUB_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
