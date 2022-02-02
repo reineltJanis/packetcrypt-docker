@@ -26,6 +26,7 @@ before_script:
   # we use $CI_REGISTRY_PASSWORD here which is a special variable provided by GitLab
   # https://docs.gitlab.com/ce/ci/variables/predefined_variables.html
   - echo -n $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+  - echo -n $DOCKERHUB_REGISTRY_PAT | docker login -u $DOCKERHUB_REGISTRY_USER --password-stdin
   - export DOCKER_BUILDKIT=1
 
 Build:
