@@ -7,8 +7,6 @@ RUN apt-get update \
 
 COPY packetcrypt_rs/ .
 
-RUN cargo clean
-
 # RUN CC=clang cargo build --release
 RUN PC_CC=clang cargo build --release --features portable
 
