@@ -46,6 +46,7 @@ Build:
       --label "image.revision=$CI_COMMIT_SHA"
       --label "image.version=$CI_COMMIT_REF_NAME"
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      .
 
 # Here, the goal is to tag the "main" branch as "latest"
 Push latest:
