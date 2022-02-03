@@ -4,7 +4,7 @@
 # Mentioned here: https://blog.callr.tech/building-docker-images-with-gitlab-ci-best-practices/
 
 # do not use "latest" here, if you want this to work in the future
-image: docker:20
+image: jdrouet/docker-with-buildx:stable
 
 stages:
   - build
@@ -34,25 +34,18 @@ Build:
   script:
     # fetches the latest image (not failing if image is not found)
     - docker pull $CI_REGISTRY_IMAGE:latest || true
-    # builds the project, passing proxy variables, using OCI labels
-    # notice the cache-from, which is going to use the image we just pulled locally
-    # the built image is tagged locally with the commit SHA, and then pushed to 
-    # the GitLab registry
+    - docker buildx create --use
     - >
-      docker build
-      --pull
-      --build-arg http_proxy=$http_proxy
-      --build-arg https_proxy=$https_proxy
-      --build-arg no_proxy=$no_proxy
+      docker buildx build
+      --push
+      --platform linux/arm64/v8,linux/amd64
       --cache-from $CI_REGISTRY_IMAGE:latest
-      --label "online.reinelt.image.title=$CI_PROJECT_TITLE"
-      --label "online.reinelt.image.url=$CI_PROJECT_URL"
-      --label "online.reinelt.image.created=$CI_JOB_STARTED_AT"
-      --label "online.reinelt.image.revision=$CI_COMMIT_SHA"
-      --label "online.reinelt.image.version=$CI_COMMIT_REF_NAME"
+      --label "image.title=$CI_PROJECT_TITLE"
+      --label "image.url=https://github.com/reineltJanis/packetcrypt-docker"
+      --label "image.created=$CI_JOB_STARTED_AT"
+      --label "image.revision=$CI_COMMIT_SHA"
+      --label "image.version=$CI_COMMIT_REF_NAME"
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-      .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 # Here, the goal is to tag the "main" branch as "latest"
 Push latest:
