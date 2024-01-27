@@ -10,7 +10,7 @@ COPY packetcrypt_rs/ .
 # RUN CC=clang cargo build --release
 RUN PC_CC=clang cargo build --release --features portable
 
-FROM debian:bullseye-slim as prod
+FROM debian:bookworm-slim as prod
 
 WORKDIR /packetcrypt
 
